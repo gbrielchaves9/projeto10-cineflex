@@ -14,7 +14,7 @@ export default function HomePage() {
         <PageContainer>
             Selecione o filme
 
-            <ListContainer>
+            <ListContainer data-test="movie" >
                 {filmes.map(filme =>(
                 <MovieContainer key={filme.id} >
                     <img src={filme.posterURL}   alt={filme.title}/>
