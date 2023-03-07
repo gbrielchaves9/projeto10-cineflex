@@ -1,21 +1,24 @@
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
-import SeatsPage from "./pages/SeatsPage/SeatsPage"
-import SessionsPage from "./pages/SessionsPage/SessionsPage"
-import SuccessPage from "./pages/SuccessPage/SuccessPage"
+//import SeatsPage from "./pages/SeatsPage/SeatsPage"
+//import SessionsPage from "./pages/SessionsPage/SessionsPage"
+//import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
         <>
            <NavContainer>CINEFLEX</NavContainer>
+           <HomePage></HomePage>
+          
 
             {/* <HomePage /> */}
             {/* <SeatsPage /> */}
-            <SessionsPage />
+           
             {/* <SuccessPage /> */}
         </>
     )
 }
+//<SessionsPage />
 
 const NavContainer = styled.div`
     width: 100%;
