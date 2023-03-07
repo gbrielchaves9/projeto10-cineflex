@@ -30,7 +30,6 @@ export default function SessionsPage() {
                         </SessionContainer>
                     ))}
                 </div>
-
                 <FooterContainer>
                     <div>
                         <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />

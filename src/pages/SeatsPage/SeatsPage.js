@@ -1,56 +1,63 @@
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
 
 export default function SeatsPage() {
+  const [cadeira, setCadeira] = useState([])
+  useEffect(() => {
+    const URL = "https://mock-api.driven.com.br/api/v8/cineflex/showtimes/240/seats"
+    const promise = axios.get(URL)
+    promise.then(res => setCadeira(res.data.seats))
+    promise.catch(err => console.log(err))
+  }, [])
 
-    return (
-        <PageContainer>
-            Selecione o(s) assento(s)
+  return (
+    <PageContainer>
+      Selecione o(s) assento(s)
 
-            <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
-            </SeatsContainer>
+      <SeatsContainer>
+        {cadeira.map(seat => (
+          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>{seat.name}</SeatItem>
+        ))}
+      </SeatsContainer>
 
-            <CaptionContainer>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Selecionado
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Disponível
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Indisponível
-                </CaptionItem>
-            </CaptionContainer>
+      <CaptionContainer>
+        <CaptionItem>
+          <CaptionCircle isAvailable />
+          Selecionado
+        </CaptionItem>
+        <CaptionItem>
+          <CaptionCircle />
+          Disponível
+        </CaptionItem>
+        <CaptionItem>
+          <CaptionCircle isUnavailable />
+          Indisponível
+        </CaptionItem>
+      </CaptionContainer>
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+      <FormContainer>
+        Nome do Comprador:
+        <input placeholder="Digite seu nome..." />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+        CPF do Comprador:
+        <input placeholder="Digite seu CPF..." />
 
-                <button>Reservar Assento(s)</button>
-            </FormContainer>
+        <button>Reservar Assento(s)</button>
+      </FormContainer>
 
-            <FooterContainer>
-                <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
-                </div>
-                <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
-                </div>
-            </FooterContainer>
-
-        </PageContainer>
-    )
+      <FooterContainer>
+        <div>
+          <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+        </div>
+        <div>
+          <p>Tudo em todo lugar ao mesmo tempo</p>
+          <p>Sexta - 14h00</p>
+        </div>
+      </FooterContainer>
+    </PageContainer>
+  )
 }
 
 const PageContainer = styled.div`
