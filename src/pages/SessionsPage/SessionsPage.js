@@ -8,22 +8,22 @@ export default function SessionsPage() {
     useEffect(() => {
         const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies/1/showtimes"
         const promise = axios.get(URL)
-        promise.then(res => console.log(res.data))
+        promise.then(res => setHorario(res.data.days))
         promise.catch(err => console.log(err.data))
     }, [])
     return (
         <>
-            <PageContainer>
+          <PageContainer>
                 Selecione o horário
                 <div>
-                     {horario.map(hora =>(
-                    <SessionContainer>
-                       <p>{hora.days}</p>
+                     {horario.map(dia =>(
+                    <SessionContainer key={dia.id}>
+                       {dia.weekday} - {dia.date}
                         <ButtonsContainer>
-                            <button>14:00</button>
-                            <button>15:00</button>
+                            {dia.showtimes.map(horario => (
+                                <button key={horario.id}>{horario.name}</button>
+                            ))}
                         </ButtonsContainer>
-                      
                     </SessionContainer>
                       ))}
                 </div>
