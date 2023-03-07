@@ -1,33 +1,37 @@
 import styled from "styled-components"
-import { useEffect , useState} from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 export default function HomePage() {
-    const[filmes, setFilmes]= useState([])
-    useEffect(()=>{
-    const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
-   const promise = axios.get(URL)
-   promise.then(res => setFilmes(res.data))
-    promise.catch(err=> console.log(err.data))
-    },[])
+    const [filmes, setFilmes] = useState([])
+    useEffect(() => {
+        const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
+        const promise = axios.get(URL)
+        promise.then(res => setFilmes(res.data))
+        promise.catch(err => console.log(err.data))
+    }, [])
 
-  /*  if(filmes.length === 0){
-        return <p>carregando!</p>
-   }*/
+    /*  if(filmes.length === 0){
+          return <p>carregando!</p>
+     }*/
     //id: 1, title: 'Zack Snyder Justice League', posterURL: 
     return (
         <PageContainer>
             Selecione o filme
 
+
             <ListContainer  >
-                {filmes.map(filme =>(
-                <MovieContainer key={filme.id} data-test="movie">
-                    <img src={filme.posterURL}   alt={filme.title}/>
-                </MovieContainer>
+                {filmes.map(filme => (
+                    <MovieContainer key={filme.id} data-test="movie">
+                        <Link to="/SessionsPage">
+                            <img src={filme.posterURL} alt={filme.title} />
+                        </Link>
+                    </MovieContainer>
                 ))}
             </ListContainer>
 
         </PageContainer>
-    
+
     )
 }
 
