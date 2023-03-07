@@ -1,12 +1,14 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useEffect , useState} from "react"
 import axios from "axios"
 export default function HomePage() {
     const[filmes, setFilmes]= useState([])
+    useEffect(()=>{
     const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
-    const promise = axios.get(URL)
-    promise.then(res => setFilmes(res.data))
- //   promise.cat(err=> console.log(err.response.data))
+   const promise = axios.get(URL)
+   promise.then(res => setFilmes(res.data))
+   // promise.cat(err=> console.log(err.data))
+    },[])
     //id: 1, title: 'Zack Snyder Justice League', posterURL: 
     return (
         <PageContainer>
@@ -14,8 +16,8 @@ export default function HomePage() {
 
             <ListContainer>
                 {filmes.map(filme =>(
-                <MovieContainer>
-                    <img src={filme.posterURL} key={filme.id} alt={filme.title}/>
+                <MovieContainer key={filme.id} >
+                    <img src={filme.posterURL}   alt={filme.title}/>
                 </MovieContainer>
                 ))}
             </ListContainer>
