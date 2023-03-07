@@ -7,16 +7,20 @@ export default function HomePage() {
     const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
    const promise = axios.get(URL)
    promise.then(res => setFilmes(res.data))
-   // promise.cat(err=> console.log(err.data))
+    promise.catch(err=> console.log(err.data))
     },[])
+
+    if(filmes.length === 0){
+        return <p>carregando!</p>
+    }
     //id: 1, title: 'Zack Snyder Justice League', posterURL: 
     return (
         <PageContainer>
             Selecione o filme
 
-            <ListContainer data-test="movie" >
+            <ListContainer  >
                 {filmes.map(filme =>(
-                <MovieContainer key={filme.id} >
+                <MovieContainer key={filme.id} data-test="movie">
                     <img src={filme.posterURL}   alt={filme.title}/>
                 </MovieContainer>
                 ))}
