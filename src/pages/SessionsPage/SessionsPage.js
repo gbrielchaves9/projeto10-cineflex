@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 
 export default function SessionsPage() {
@@ -13,19 +14,21 @@ export default function SessionsPage() {
     }, [])
     return (
         <>
-          <PageContainer>
+            <PageContainer>
                 Selecione o horário
                 <div>
-                     {horario.map(dia =>(
-                    <SessionContainer key={dia.id}>
-                       {dia.weekday} - {dia.date}
-                        <ButtonsContainer>
-                            {dia.showtimes.map(horario => (
-                                <button key={horario.id}>{horario.name}</button>
-                            ))}
-                        </ButtonsContainer>
-                    </SessionContainer>
-                      ))}
+                    {horario.map(dia => (
+                        <SessionContainer key={dia.id}>
+                            {dia.weekday} - {dia.date}
+                            <ButtonsContainer>
+                                {dia.showtimes.map(horario => (
+                                    <Link to="/SeatsPage">
+                                        <button key={horario.id}>{horario.name}</button>
+                                    </Link>
+                                ))}
+                            </ButtonsContainer>
+                        </SessionContainer>
+                    ))}
                 </div>
 
                 <FooterContainer>
@@ -86,7 +89,6 @@ const FooterContainer = styled.div`
     font-size: 20px;
     position: fixed;
     bottom: 0;
-
     div:nth-child(1) {
         box-shadow: 0px 2px 4px 2px #0000001A;
         border-radius: 3px;
@@ -101,7 +103,6 @@ const FooterContainer = styled.div`
             padding: 8px;
         }
     }
-
     div:nth-child(2) {
         display: flex;
         flex-direction: column;

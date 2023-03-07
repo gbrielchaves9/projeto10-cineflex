@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import SeatsPage from "./pages/SeatsPage/SeatsPage"
+import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 //import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
@@ -13,6 +13,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/SessionsPage" element={<SessionsPage />} />
+                    <Route path="/SeatsPage" element={<SeatsPage />} />
                 </Routes>
 
 
