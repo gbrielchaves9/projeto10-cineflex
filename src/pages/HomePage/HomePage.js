@@ -10,9 +10,9 @@ export default function HomePage() {
     promise.catch(err=> console.log(err.data))
     },[])
 
-    if(filmes.length === 0){
+  /*  if(filmes.length === 0){
         return <p>carregando!</p>
-    }
+   }*/
     //id: 1, title: 'Zack Snyder Justice League', posterURL: 
     return (
         <PageContainer>
@@ -30,6 +30,7 @@ export default function HomePage() {
     
     )
 }
+
 
 const PageContainer = styled.div`
     display: flex;
