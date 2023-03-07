@@ -23,7 +23,7 @@ export default function HomePage() {
             <ListContainer  >
                 {filmes.map(filme => (
                     <MovieContainer key={filme.id} data-test="movie">
-                        <Link to="/SessionsPage">
+                        <Link to="/SessionsPage"> 	
                             <img src={filme.posterURL} alt={filme.title} />
                         </Link>
                     </MovieContainer>
@@ -34,6 +34,7 @@ export default function HomePage() {
 
     )
 }
+
 
 
 const PageContainer = styled.div`
