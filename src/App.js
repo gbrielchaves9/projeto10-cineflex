@@ -1,24 +1,30 @@
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 //import SeatsPage from "./pages/SeatsPage/SeatsPage"
-//import SessionsPage from "./pages/SessionsPage/SessionsPage"
+import SessionsPage from "./pages/SessionsPage/SessionsPage"
 //import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
         <>
-           <NavContainer>CINEFLEX</NavContainer>
-           <HomePage></HomePage>
-          
+            <BrowserRouter>
+                <NavContainer>CINEFLEX</NavContainer>
+                <Routes>
+                    <Route path="/" element={<HomePage />}/> 
+                    <Route path="/SessionsPage" element={<SessionsPage />}/> 
+                </Routes>
 
-            {/* <HomePage /> */}
-            {/* <SeatsPage /> */}
-           
-            {/* <SuccessPage /> */}
+
+                {/* <HomePage /> */}
+                {/* <SeatsPage /> */}
+
+                {/* <SuccessPage /> */}
+            </BrowserRouter>
         </>
     )
 }
-//<SessionsPage />
+
 
 const NavContainer = styled.div`
     width: 100%;
