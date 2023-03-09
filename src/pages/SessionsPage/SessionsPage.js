@@ -7,6 +7,8 @@ import { Link, useParams } from "react-router-dom"
 export default function SessionsPage() {
     const [horario, setHorario] = useState(undefined)
     const [posterURL, setPosterURL] = useState('')
+    const [title, setTitle] = useState('')
+
     const { idPag } = useParams()
     useEffect(() => {
         const URL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idPag}/showtimes`
@@ -14,6 +16,7 @@ export default function SessionsPage() {
         promise.then(res => {
             setHorario(res.data.days)
             setPosterURL(res.data.posterURL)
+            setTitle(res.data.title)
             console.log(res.data)
           })
         promise.catch(err => console.log(err.data))
@@ -27,11 +30,11 @@ export default function SessionsPage() {
                 Selecione o horário
                 <div>
                     {horario.map(dia => (
-                        <SessionContainer key={dia.id}>
+                        <SessionContainer key={dia.id} data-test="movie-day">
                             {dia.weekday} - {dia.date}
                             <ButtonsContainer>
                                 {dia.showtimes.map(horario => (
-                                    <Link to="/SeatsPage"  key={horario.id}>
+                                    <Link to="/SeatsPage"  key={horario.id} data-test="showtime">
                                         <button key={horario.id}>{horario.name}</button>
                                     </Link>
                                 ))}
@@ -39,12 +42,12 @@ export default function SessionsPage() {
                         </SessionContainer>
                     ))}
                 </div>
-                <FooterContainer>
+                <FooterContainer data-test="footer">
                     <div>
                     <img src={posterURL} alt="poster" />
                     </div>
                     <div>
-                        <p>Tudo em todo lugar ao mesmo tempo</p>
+                        <p>{title}</p>
                     </div>
                 </FooterContainer>
 
