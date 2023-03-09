@@ -1,17 +1,21 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 
 export default function SessionsPage() {
-    const [horario, setHorario] = useState([])
+    const [horario, setHorario] = useState(undefined)
+    const {idPag}= useParams()
     useEffect(() => {
-        const URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies/1/showtimes"
+        const URL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idPag}/showtimes`
         const promise = axios.get(URL)
         promise.then(res => setHorario(res.data.days))
         promise.catch(err => console.log(err.data))
-    }, [])
+    }, [idPag])
+    if(horario === undefined){
+        return <div>Carregando...</div>
+    }
     return (
         <>
             <PageContainer>
@@ -22,7 +26,7 @@ export default function SessionsPage() {
                             {dia.weekday} - {dia.date}
                             <ButtonsContainer>
                                 {dia.showtimes.map(horario => (
-                                    <Link to="/SeatsPage">
+                                    <Link to="/SeatsPage"  key={horario.id}>
                                         <button key={horario.id}>{horario.name}</button>
                                     </Link>
                                 ))}
