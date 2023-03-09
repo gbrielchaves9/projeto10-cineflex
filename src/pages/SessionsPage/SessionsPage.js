@@ -6,11 +6,16 @@ import { Link, useParams } from "react-router-dom"
 
 export default function SessionsPage() {
     const [horario, setHorario] = useState(undefined)
-    const {idPag}= useParams()
+    const [posterURL, setPosterURL] = useState('')
+    const { idPag } = useParams()
     useEffect(() => {
         const URL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idPag}/showtimes`
         const promise = axios.get(URL)
-        promise.then(res => setHorario(res.data.days))
+        promise.then(res => {
+            setHorario(res.data.days)
+            setPosterURL(res.data.posterURL)
+            console.log(res.data)
+          })
         promise.catch(err => console.log(err.data))
     }, [idPag])
     if(horario === undefined){
@@ -36,7 +41,7 @@ export default function SessionsPage() {
                 </div>
                 <FooterContainer>
                     <div>
-                        <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={posterURL} alt="poster" />
                     </div>
                     <div>
                         <p>Tudo em todo lugar ao mesmo tempo</p>
