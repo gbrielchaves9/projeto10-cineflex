@@ -35,19 +35,19 @@ export default function SeatsPage() {
       </SeatsContainer>
 
       <CaptionContainer>
-        <CaptionItem>
-          <CaptionCircle />
-          Selecionado
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle />
-          Disponível
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle />
-          Indisponível
-        </CaptionItem>
-      </CaptionContainer>
+  <CaptionItem>
+    <CaptionCircle style={{ backgroundColor: "#1AAE9E", borderColor: "#0E7D71" }} />
+    Selecionado
+  </CaptionItem>
+  <CaptionItem>
+    <CaptionCircle isAvailable />
+    Disponível
+  </CaptionItem>
+  <CaptionItem>
+    <CaptionCircle style={{ backgroundColor: "#FBE192", borderColor: "#F7C52B" }} />
+    Indisponível
+  </CaptionItem>
+</CaptionContainer>
 
       <FormContainer>
         Nome do Comprador:
@@ -114,8 +114,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-   border: 1px solid ${({ isAvailable }) => isAvailable ? 'blue' : 'gray'};
-  background-color: ${({ isAvailable }) => isAvailable ? "#1AAE9E" : "#FBE192"};
+   border: 1px solid ${({ isAvailable }) => isAvailable ? '#7B8B99' : 'gray'};
+  background-color: ${({ isAvailable }) => isAvailable ? "#C3CFD9" : "#FBE192"};
      // Essa cor deve mudar
     height: 25px;
     width: 25px;
@@ -132,7 +132,7 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-     border: 1px solid blue;
+    border: 1px solid ${({ isAvailable }) => isAvailable ? '#808F9D' : '#F7C52B'};
   background-color: ${({ isAvailable }) => isAvailable ? "#C3CFD9" : "#FBE192"};
     height: 25px;
     width: 25px;
