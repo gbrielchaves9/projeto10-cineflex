@@ -1,15 +1,15 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
-import axios from "axios"
-import {  useParams } from "react-router-dom"
+import axios, { Axios } from "axios"
+import { useParams } from "react-router-dom"
 //import { Link } from "react-router-dom"
 
 export default function SeatsPage() {
   const [cadeira, setCadeira] = useState([])
   const [posterURL, setPosterURL] = useState('')
   const [title, setTitle] = useState('')
-  
-  const { idSessao} = useParams()
+
+  const { idSessao } = useParams()
   useEffect(() => {
     const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
     const promise = axios.get(URL)
@@ -22,51 +22,73 @@ export default function SeatsPage() {
     promise.catch(err => console.log(err.data))
   }, [idSessao])
 
+  //espaço para pedidos :
+
+  //const [ids, setIds] = useState('')
+  const [name, setName] = useState('')
+  const [cpf, setCpf] = useState('')
+
+  function pedido() {
+    alert("pedido ok")
+    const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
+    const informacoes = {  name, cpf }
+    const promise = axios.post(urlPedido, informacoes)
+  }
   return (
     <PageContainer>
       Selecione o(s) assento(s)
 
       <SeatsContainer>
         {cadeira.map(seat => (
-          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>
-            {seat.name}
-            </SeatItem>
+          <SeatItem key={seat.id} isAvailable={seat.isAvailable} >
+            {seat.name} 
+          </SeatItem>
         ))}
       </SeatsContainer>
 
       <CaptionContainer>
-  <CaptionItem>
-    <CaptionCircle style={{ backgroundColor: "#1AAE9E", borderColor: "#0E7D71" }} />
-    Selecionado
-  </CaptionItem>
-  <CaptionItem>
-    <CaptionCircle isAvailable />
-    Disponível
-  </CaptionItem>
-  <CaptionItem>
-    <CaptionCircle style={{ backgroundColor: "#FBE192", borderColor: "#F7C52B" }} />
-    Indisponível
-  </CaptionItem>
-</CaptionContainer>
+        <CaptionItem>
+          <CaptionCircle style={{ backgroundColor: "#1AAE9E", borderColor: "#0E7D71" }} />
+          Selecionado
+        </CaptionItem>
+        <CaptionItem>
+          <CaptionCircle isAvailable />
+          Disponível
+        </CaptionItem>
+        <CaptionItem>
+          <CaptionCircle style={{ backgroundColor: "#FBE192", borderColor: "#F7C52B" }} />
+          Indisponível
+        </CaptionItem>
+      </CaptionContainer>
 
       <FormContainer>
-        Nome do Comprador:
-        <input placeholder="Digite seu nome..." />
-
-        CPF do Comprador:
-        <input placeholder="Digite seu CPF..." />
-
-        <button>Reservar Assento(s)</button>
+        <form onSubmit={pedido}>
+          <FormContainer htmlFor="Nome">
+            Nome do Comprador:
+            <input id="NomeUsuario" placeholder="Digite seu nome..." required
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </FormContainer>
+          <FormContainer htmlFor="cpf">
+            CPF do Comprador:
+            <input id="Cpf" placeholder="Digite seu CPF..." required 
+              value={cpf}
+              onChange={e => setCpf(e.target.value)}
+              />
+          </FormContainer>
+          <button type="submit">Reservar Assento(s)</button>
+        </form>
       </FormContainer>
 
       <FooterContainer data-test="footer">
-                    <div>
-                    <img src={posterURL} alt="poster" />
-                    </div>
-                    <div>
-                        <p>{title}</p>
-                    </div>
-                </FooterContainer>
+        <div>
+          <img src={posterURL} alt="poster" />
+        </div>
+        <div>
+          <p>{title}</p>
+        </div>
+      </FooterContainer>
     </PageContainer>
   )
 }
@@ -92,7 +114,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.label`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
