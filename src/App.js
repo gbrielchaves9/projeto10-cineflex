@@ -3,7 +3,7 @@ import HomePage from "./pages/HomePage/HomePage"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
-//import SuccessPage from "./pages/SuccessPage/SuccessPage"
+import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
@@ -14,12 +14,8 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
                     <Route path="/assentos/:idSessao" element={<SeatsPage />} />
-                  {/*  <Route path="/sucesso" element= {<SuccessPage />}/>/> */}
+                    <Route path="/sucesso" element={<SuccessPage />} />
                 </Routes>
-                {/* <HomePage /> */}
-                {/* <SeatsPage /> */}
-
-                {/* <SuccessPage /> */}
             </BrowserRouter>
         </>
     )

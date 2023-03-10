@@ -1,114 +1,127 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
-import axios, { Axios } from "axios"
+import axios from "axios"
 import { useParams } from "react-router-dom"
-//import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export default function SeatsPage() {
-  const [cadeira, setCadeira] = useState([])
-  const [posterURL, setPosterURL] = useState('')
-  const [title, setTitle] = useState('')
-  const [escolheLugar, setEscolhe] = useState([]);
-  function handleClick(id) {
-    setEscolhe(escolheLugar => {
-      if (escolheLugar.includes(id)) {
-        return escolheLugar.filter(lugar => lugar !== id);
-      } else {
-        return [...escolheLugar, id];
-      }
-    });
-  }
-  
-
-  const { idSessao } = useParams()
-  useEffect(() => {
-    const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
-    const promise = axios.get(URL)
-    promise.then(res => {
-      setCadeira(res.data.seats)
-      setTitle(res.data.movie.title)
-      setPosterURL(res.data.movie.posterURL)
-      console.log(res.data)
-    })
-    promise.catch(err => console.log(err.data))
-  }, [idSessao])
-
-  //espaço para pedidos :
-
-  //const [ids, setIds] = useState('')
-  const [name, setName] = useState('')
-  const [cpf, setCpf] = useState('')
-
-  function pedido() {
-    alert("pedido ok")
-    const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-    const informacoes = { name, cpf }
-    const promise = axios.post(urlPedido, informacoes)
-  }
-  return (
-    <PageContainer>
-      Selecione o(s) assento(s)
-
-      <SeatsContainer>
-        {cadeira.map(seat => (
-          <SeatItem key={seat.id} isAvailable={seat.isAvailable}
-          onClick={() => handleClick(seat.id)}
-          style={{
-            backgroundColor: escolheLugar.includes(seat.id) ? "#1AAE9E" : null,
-          }}
-          >
-            {seat.name}
-          </SeatItem>
-        ))}
-      </SeatsContainer>
+    const [cadeira, setCadeira] = useState([])
+    const [posterURL, setPosterURL] = useState('')
+    const [title, setTitle] = useState('')
+    const [escolheLugar, setEscolhe] = useState([]);
+    function handleClick(seat) {
+        if (seat.backgroundColor === "#FBE192") {
+            alert("Assento não disponível");
+        } else if (seat.isAvailable) {
+            const newEscolhe = [...escolheLugar];
+            const index = newEscolhe.indexOf(seat.id);
+            if (index > -1) {
+                newEscolhe.splice(index, 1);
+            } else {
+                newEscolhe.push(seat.id);
+            }
+            setEscolhe(newEscolhe);
+        } else {
+            alert("Assento não disponível");
+        }
+    }
 
 
+    const { idSessao } = useParams()
+    useEffect(() => {
+        const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
+        const promise = axios.get(URL)
+        promise.then(res => {
+            setCadeira(res.data.seats)
+            setTitle(res.data.movie.title)
+            setPosterURL(res.data.movie.posterURL)
+            console.log(res.data)
+        })
+        promise.catch(err => console.log(err.data))
+    }, [idSessao])
 
-      <CaptionContainer>
-        <CaptionItem>
-          <CaptionCircle style={{ backgroundColor: "#1AAE9E", borderColor: "#0E7D71" }} />
-          Selecionado
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle isAvailable />
-          Disponível
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle style={{ backgroundColor: "#FBE192", borderColor: "#F7C52B" }} />
-          Indisponível
-        </CaptionItem>
-      </CaptionContainer>
+    //espaço para pedidos :
 
-      <FormContainer>
-        <form onSubmit={pedido}>
-          <FormContainer htmlFor="Nome">
-            Nome do Comprador:
-            <input id="NomeUsuario" placeholder="Digite seu nome..." required
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </FormContainer>
-          <FormContainer htmlFor="cpf">
-            CPF do Comprador:
-            <input id="Cpf" placeholder="Digite seu CPF..." required
-              value={cpf}
-              onChange={e => setCpf(e.target.value)}
-            />
-          </FormContainer>
-          <button type="submit">Reservar Assento(s)</button>
-        </form>
-      </FormContainer>
+    //const [ids, setIds] = useState('')
+    const [name, setName] = useState('')
+    const [cpf, setCpf] = useState('')
 
-      <FooterContainer data-test="footer">
-        <div>
-          <img src={posterURL} alt="poster" />
-        </div>
-        <div>
-          <p>{title}</p>
-        </div>
-      </FooterContainer>
-    </PageContainer>
-  )
+    function pedido() {
+        alert("pedido ok")
+        const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
+        const informacoes = { name, cpf }
+        const promise = axios.post(urlPedido, informacoes)
+    }
+    
+    return (
+        <PageContainer>
+            Selecione o(s) assento(s)
+
+            <SeatsContainer>
+                {cadeira.map(seat => (
+                    <SeatItem
+                        key={seat.id}
+                        isAvailable={seat.isAvailable}
+                        onClick={() => handleClick(seat)}
+                        style={{
+                            backgroundColor: escolheLugar.includes(seat.id) ? "#1AAE9E" : null,
+                        }}
+                    >
+                        {seat.name}
+                    </SeatItem>
+                ))}
+            </SeatsContainer>
+
+
+
+            <CaptionContainer>
+                <CaptionItem>
+                    <CaptionCircle style={{ backgroundColor: "#1AAE9E", borderColor: "#0E7D71" }} />
+                    Selecionado
+                </CaptionItem>
+                <CaptionItem>
+                    <CaptionCircle isAvailable />
+                    Disponível
+                </CaptionItem>
+                <CaptionItem>
+                    <CaptionCircle style={{ backgroundColor: "#FBE192", borderColor: "#F7C52B" }} />
+                    Indisponível
+                </CaptionItem>
+            </CaptionContainer>
+
+            <FormContainer>
+                <form onSubmit={pedido}>
+                    <FormContainer htmlFor="Nome">
+                        Nome do Comprador:
+                        <input id="NomeUsuario" placeholder="Digite seu nome..." required
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </FormContainer>
+                    <FormContainer htmlFor="cpf">
+                        CPF do Comprador:
+                        <input id="Cpf" placeholder="Digite seu CPF..." required
+                            value={cpf}
+                            onChange={e => setCpf(e.target.value)}
+                        />
+                    </FormContainer>
+                    <Link to={`/sucesso`} >
+                        <button type="submit">Reservar Assento(s)</button>
+                    </Link>
+                   
+                </form>
+            </FormContainer>
+
+            <FooterContainer data-test="footer">
+                <div>
+                    <img src={posterURL} alt="poster" />
+                </div>
+                <div>
+                    <p>{title}</p>
+                </div>
+            </FooterContainer>
+        </PageContainer>
+    )
 }
 
 const PageContainer = styled.div`
