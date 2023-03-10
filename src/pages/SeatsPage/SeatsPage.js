@@ -8,6 +8,17 @@ export default function SeatsPage() {
   const [cadeira, setCadeira] = useState([])
   const [posterURL, setPosterURL] = useState('')
   const [title, setTitle] = useState('')
+  const [escolheLugar, setEscolhe] = useState([]);
+  function handleClick(id) {
+    setEscolhe(escolheLugar => {
+      if (escolheLugar.includes(id)) {
+        return escolheLugar.filter(lugar => lugar !== id);
+      } else {
+        return [...escolheLugar, id];
+      }
+    });
+  }
+  
 
   const { idSessao } = useParams()
   useEffect(() => {
@@ -31,7 +42,7 @@ export default function SeatsPage() {
   function pedido() {
     alert("pedido ok")
     const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-    const informacoes = {  name, cpf }
+    const informacoes = { name, cpf }
     const promise = axios.post(urlPedido, informacoes)
   }
   return (
@@ -40,11 +51,18 @@ export default function SeatsPage() {
 
       <SeatsContainer>
         {cadeira.map(seat => (
-          <SeatItem key={seat.id} isAvailable={seat.isAvailable} >
-            {seat.name} 
+          <SeatItem key={seat.id} isAvailable={seat.isAvailable}
+          onClick={() => handleClick(seat.id)}
+          style={{
+            backgroundColor: escolheLugar.includes(seat.id) ? "#1AAE9E" : null,
+          }}
+          >
+            {seat.name}
           </SeatItem>
         ))}
       </SeatsContainer>
+
+
 
       <CaptionContainer>
         <CaptionItem>
@@ -72,10 +90,10 @@ export default function SeatsPage() {
           </FormContainer>
           <FormContainer htmlFor="cpf">
             CPF do Comprador:
-            <input id="Cpf" placeholder="Digite seu CPF..." required 
+            <input id="Cpf" placeholder="Digite seu CPF..." required
               value={cpf}
               onChange={e => setCpf(e.target.value)}
-              />
+            />
           </FormContainer>
           <button type="submit">Reservar Assento(s)</button>
         </form>
@@ -138,7 +156,6 @@ const CaptionContainer = styled.div`
 const CaptionCircle = styled.div`
    border: 1px solid ${({ isAvailable }) => isAvailable ? '#7B8B99' : 'gray'};
   background-color: ${({ isAvailable }) => isAvailable ? "#C3CFD9" : "#FBE192"};
-     // Essa cor deve mudar
     height: 25px;
     width: 25px;
     border-radius: 25px;
