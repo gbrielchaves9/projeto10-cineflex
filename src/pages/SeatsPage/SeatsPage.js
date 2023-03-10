@@ -1,16 +1,26 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import {  useParams } from "react-router-dom"
 //import { Link } from "react-router-dom"
 
 export default function SeatsPage() {
   const [cadeira, setCadeira] = useState([])
+  const [posterURL, setPosterURL] = useState('')
+  const [title, setTitle] = useState('')
+  
+  const { idSessao} = useParams()
   useEffect(() => {
-    const URL = "https://mock-api.driven.com.br/api/v8/cineflex/showtimes/240/seats"
+    const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
     const promise = axios.get(URL)
-    promise.then(res => setCadeira(res.data.seats))
-    promise.catch(err => console.log(err))
-  }, [])
+    promise.then(res => {
+      setCadeira(res.data.seats)
+      setTitle(res.data.movie.title)
+      setPosterURL(res.data.movie.posterURL)
+      console.log(res.data)
+    })
+    promise.catch(err => console.log(err.data))
+  }, [idSessao])
 
   return (
     <PageContainer>
@@ -18,13 +28,15 @@ export default function SeatsPage() {
 
       <SeatsContainer>
         {cadeira.map(seat => (
-          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>{seat.name}</SeatItem>
+          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>
+            {seat.name}
+            </SeatItem>
         ))}
       </SeatsContainer>
 
       <CaptionContainer>
         <CaptionItem>
-          <CaptionCircle isAvailable />
+          <CaptionCircle />
           Selecionado
         </CaptionItem>
         <CaptionItem>
@@ -32,7 +44,7 @@ export default function SeatsPage() {
           Disponível
         </CaptionItem>
         <CaptionItem>
-          <CaptionCircle isUnavailable />
+          <CaptionCircle />
           Indisponível
         </CaptionItem>
       </CaptionContainer>
@@ -47,15 +59,14 @@ export default function SeatsPage() {
         <button>Reservar Assento(s)</button>
       </FormContainer>
 
-      <FooterContainer>
-        <div>
-          <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
-        </div>
-        <div>
-          <p>Tudo em todo lugar ao mesmo tempo</p>
-          <p>Sexta - 14h00</p>
-        </div>
-      </FooterContainer>
+      <FooterContainer data-test="footer">
+                    <div>
+                    <img src={posterURL} alt="poster" />
+                    </div>
+                    <div>
+                        <p>{title}</p>
+                    </div>
+                </FooterContainer>
     </PageContainer>
   )
 }
@@ -103,8 +114,9 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+   border: 1px solid ${({ isAvailable }) => isAvailable ? 'blue' : 'gray'};
+  background-color: ${({ isAvailable }) => isAvailable ? "#1AAE9E" : "#FBE192"};
+     // Essa cor deve mudar
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -120,8 +132,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+     border: 1px solid blue;
+  background-color: ${({ isAvailable }) => isAvailable ? "#C3CFD9" : "#FBE192"};
     height: 25px;
     width: 25px;
     border-radius: 25px;
