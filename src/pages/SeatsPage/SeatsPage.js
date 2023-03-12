@@ -61,7 +61,7 @@ export default function SeatsPage() {
         <PageContainer>
             Selecione o(s) assento(s)
 
-            <SeatsContainer>
+            <SeatsContainer data-test="seat">
                 {cadeira.map(seat => (
                     <SeatItem
                         key={seat.id}
@@ -95,14 +95,14 @@ export default function SeatsPage() {
 
             <FormContainer>
                 <form onSubmit={pedido}>
-                    <FormContainer htmlFor="Nome">
+                    <FormContainer htmlFor="Nome" data-test="client-name">
                         Nome do Comprador:
                         <input id="NomeUsuario" placeholder="Digite seu nome..." required
                             value={name}
                             onChange={e => setName(e.target.value)}
                         />
                     </FormContainer>
-                    <FormContainer htmlFor="cpf">
+                    <FormContainer htmlFor="cpf" data-test="client-cpf">
                         CPF do Comprador:
                         <input id="Cpf" placeholder="Digite seu CPF..." required
                             value={cpf}
@@ -110,7 +110,7 @@ export default function SeatsPage() {
                         />
                     </FormContainer>
                     <Link to={`/sucesso`} >
-                        <button type="submit">Reservar Assento(s)</button>
+                        <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
                     </Link>
                    
                 </form>
