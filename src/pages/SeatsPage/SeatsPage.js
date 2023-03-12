@@ -9,6 +9,9 @@ export default function SeatsPage() {
     const [posterURL, setPosterURL] = useState('')
     const [title, setTitle] = useState('')
     const [escolheLugar, setEscolhe] = useState([]);
+    const [dateTime, setDateTime] = useState('')
+  
+    
     function handleClick(seat) {
         if (seat.backgroundColor === "#FBE192") {
             alert("Assento não disponível");
@@ -35,6 +38,7 @@ export default function SeatsPage() {
             setCadeira(res.data.seats)
             setTitle(res.data.movie.title)
             setPosterURL(res.data.movie.posterURL)
+            setDateTime(res.data.day.weekday + ' - ' + res.data.name)
             console.log(res.data)
         })
         promise.catch(err => console.log(err.data))
@@ -43,14 +47,14 @@ export default function SeatsPage() {
     //espaço para pedidos :
 
     //const [ids, setIds] = useState('')
-    const [name, setName] = useState('')
+   const [name, setName] = useState('')
     const [cpf, setCpf] = useState('')
 
-    function pedido() {
+   function pedido() {
         alert("pedido ok")
         const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
         const informacoes = { name, cpf }
-        const promise = axios.post(urlPedido, informacoes)
+       const promise = axios.post(urlPedido, informacoes)
     }
     
     return (
@@ -118,6 +122,7 @@ export default function SeatsPage() {
                 </div>
                 <div>
                     <p>{title}</p>
+                    <p>{dateTime}</p>
                 </div>
             </FooterContainer>
         </PageContainer>
