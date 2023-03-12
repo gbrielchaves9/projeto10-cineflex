@@ -10,11 +10,11 @@ export default function SeatsPage() {
     const [title, setTitle] = useState('')
     const [escolheLugar, setEscolhe] = useState([]);
     const [dateTime, setDateTime] = useState('')
-  
-    
+
+
     function handleClick(seat) {
         if (seat.backgroundColor === "#FBE192") {
-            alert("Assento não disponível");
+            alert("Esse assento não está disponível");
         } else if (seat.isAvailable) {
             const newEscolhe = [...escolheLugar];
             const index = newEscolhe.indexOf(seat.id);
@@ -25,7 +25,7 @@ export default function SeatsPage() {
             }
             setEscolhe(newEscolhe);
         } else {
-            alert("Assento não disponível");
+            alert("Esse assento não está disponível");
         }
     }
 
@@ -47,23 +47,24 @@ export default function SeatsPage() {
     //espaço para pedidos :
 
     //const [ids, setIds] = useState('')
-   const [name, setName] = useState('')
+    const [name, setName] = useState('')
     const [cpf, setCpf] = useState('')
 
-   function pedido() {
+    function pedido() {
         alert("pedido ok")
         const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
         const informacoes = { name, cpf }
-       const promise = axios.post(urlPedido, informacoes)
+        const promise = axios.post(urlPedido, informacoes)
     }
-    
+
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
-            <SeatsContainer data-test="seat">
+            <SeatsContainer >
                 {cadeira.map(seat => (
                     <SeatItem
+                        data-test="seat"
                         key={seat.id}
                         isAvailable={seat.isAvailable}
                         onClick={() => handleClick(seat)}
@@ -95,16 +96,17 @@ export default function SeatsPage() {
 
             <FormContainer>
                 <form onSubmit={pedido}>
-                    <FormContainer htmlFor="Nome" data-test="client-name">
+                    <FormContainer htmlFor="Nome" >
                         Nome do Comprador:
-                        <input id="NomeUsuario" placeholder="Digite seu nome..." required
+                        <input data-test="client-name" id="NomeUsuario" placeholder="Digite seu nome..." required
                             value={name}
                             onChange={e => setName(e.target.value)}
                         />
                     </FormContainer>
-                    <FormContainer htmlFor="cpf" data-test="client-cpf">
+                    <FormContainer htmlFor="cpf" >
                         CPF do Comprador:
-                        <input id="Cpf" placeholder="Digite seu CPF..." required
+                        <input data-test="client-cpf"
+                            id="Cpf" placeholder="Digite seu CPF..." required
                             value={cpf}
                             onChange={e => setCpf(e.target.value)}
                         />
@@ -112,7 +114,6 @@ export default function SeatsPage() {
                     <Link to={`/sucesso`} >
                         <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
                     </Link>
-                   
                 </form>
             </FormContainer>
 
