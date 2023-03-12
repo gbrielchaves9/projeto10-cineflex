@@ -24,6 +24,7 @@ export default function SeatsPage() {
                 newEscolhe.push(seat.id);
             }
             setEscolhe(newEscolhe);
+            setIds(newEscolhe);
         } else {
             alert("Esse assento não está disponível");
         }
@@ -45,16 +46,21 @@ export default function SeatsPage() {
     }, [idSessao])
 
     //espaço para pedidos :
-
-    //const [ids, setIds] = useState('')
+    const [ids, setIds] = useState([]);
     const [name, setName] = useState('')
     const [cpf, setCpf] = useState('')
 
+
+
     function pedido() {
-        alert("pedido ok")
         const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-        const informacoes = { name, cpf }
-        const promise = axios.post(urlPedido, informacoes)
+        const informacoes = { name, cpf, ids }
+        axios.post(urlPedido, informacoes)
+            .then(res => {
+                alert("pedido enviado ")
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
     }
 
     return (
@@ -112,7 +118,7 @@ export default function SeatsPage() {
                         />
                     </FormContainer>
                     <Link to={`/sucesso`} >
-                        <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
+                        <button data-test="book-seat-btn" type="button" onClick={pedido}>Reservar Assento(s)</button>
                     </Link>
                 </form>
             </FormContainer>
