@@ -12,11 +12,11 @@ export default function SeatsPage({ setFinal }) {
     const [ids, setIds] = useState([]);
     const [name, setName] = useState('')
     const [cpf, setCpf] = useState('')
-    const [seatNumbers, setSeatNumbers] = useState([]);
+  
     const [selectedSeats, setSelectedSeats] = useState([]);
   
 
-    function handleClick({id, seatNumber, isAvailable, backgroundColor, name}) {
+    function handleClick({id,  isAvailable, backgroundColor, name}) {
         if (backgroundColor === "#FBE192") {
           alert("Esse assento não está disponível");
         } else if (isAvailable) {
@@ -25,10 +25,6 @@ export default function SeatsPage({ setFinal }) {
             : [...escolheLugar, id];
           setEscolhe(newEscolhe);
           setIds(newEscolhe);
-          const newSeatNumbers = escolheLugar.includes(id)
-            ? seatNumbers.filter((number) => number !== seatNumber)
-            : [...seatNumbers, seatNumber];
-          setSeatNumbers(newSeatNumbers);
           const newSelectedSeats = escolheLugar.includes(id)
             ? selectedSeats.filter((seatName) => seatName !== name)
             : [...selectedSeats, name];
@@ -49,7 +45,7 @@ export default function SeatsPage({ setFinal }) {
             setCadeira(seatsWithNumbers);
             setTitle(res.data.movie.title);
             setPosterURL(res.data.movie.posterURL);
-            setDateTime(res.data.day.weekday + ' - ' + res.data.name);
+            setDateTime(res.data.day.date + ' - ' + res.data.name);
             console.log(res.data);
             console.log(res.data.movie.title);
         })
@@ -60,7 +56,7 @@ export default function SeatsPage({ setFinal }) {
    
     function pedido() {
         const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-        const informacoes = { name, cpf, ids,seatNumbers  }
+        const informacoes = { name, cpf, ids, selectedSeats  }
         axios.post(urlPedido, informacoes)
             .then(res => {
                 alert("pedido enviado ")
@@ -71,7 +67,7 @@ export default function SeatsPage({ setFinal }) {
                     movieTitle: title,
                     sessionDate: dateTime,
                     seats: selectedSeats,
-                   
+                
                     ids: ids
                 })
             })
