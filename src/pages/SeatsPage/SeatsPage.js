@@ -70,7 +70,6 @@ export default function SeatsPage({ setFinal }) {
                     cpf: cpf,
                     movieTitle: title,
                     sessionDate: dateTime,
-                    seats: ids ,
                     seats: selectedSeats
                 })
             })
