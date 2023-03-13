@@ -4,7 +4,7 @@ import axios from "axios"
 import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 
-export default function SeatsPage() {
+export default function SeatsPage({setFinal}) {
     const [cadeira, setCadeira] = useState([])
     const [posterURL, setPosterURL] = useState('')
     const [title, setTitle] = useState('')
@@ -41,10 +41,11 @@ export default function SeatsPage() {
             setPosterURL(res.data.movie.posterURL)
             setDateTime(res.data.day.weekday + ' - ' + res.data.name)
             console.log(res.data)
+            console.log(res.data.movie.title)
         })
         promise.catch(err => console.log(err.data))
     }, [idSessao])
-
+    console.log(title)
     //espaço para pedidos :
     const [ids, setIds] = useState([]);
     const [name, setName] = useState('')
@@ -59,6 +60,10 @@ export default function SeatsPage() {
             .then(res => {
                 alert("pedido enviado ")
                 console.log(res.data)
+                setFinal({
+                    name:name,
+                    cpf:cpf
+                })
             })
             .catch(err => console.log(err))
     }
@@ -82,7 +87,6 @@ export default function SeatsPage() {
                     </SeatItem>
                 ))}
             </SeatsContainer>
-
 
 
             <CaptionContainer>

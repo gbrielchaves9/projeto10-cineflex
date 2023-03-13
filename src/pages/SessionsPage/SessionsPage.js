@@ -18,6 +18,7 @@ export default function SessionsPage() {
             setHorario(res.data.days)
             setPosterURL(res.data.posterURL)
             setTitle(res.data.title)
+            console.log(res.data.title)
             console.log(res.data)
           })
         promise.catch(err => console.log(err.data))
@@ -35,7 +36,8 @@ export default function SessionsPage() {
                             {dia.weekday} - {dia.date}
                             <ButtonsContainer>
                                 {dia.showtimes.map(horario => (
-                                    <Link to={`/assentos/${horario.id}`}  key={horario.id} data-test="showtime">
+                                    <Link to={`/assentos/${horario.id}`}  key={horario.id} 
+                                    data-test="showtime">
                                         <button key={horario.id}>{horario.name}</button>
                                     </Link>
                                 ))}
