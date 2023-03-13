@@ -15,7 +15,7 @@ export default function SuccessPage({ final }) {
         <p>{sessionDate}</p>
       </TextContainer>
 
-      <TextContainer>
+      <TextContainer data-test="seats-info">
         <strong>
           <p>Ingressos</p>
         </strong>
@@ -30,7 +30,7 @@ export default function SuccessPage({ final }) {
         <p>CPF: {cpf}</p>
       </TextContainer>
 
-      <button>Voltar para Home</button>
+      <button data-test="go-home-btn">Voltar para Home</button>
     </PageContainer>
   );
 }
