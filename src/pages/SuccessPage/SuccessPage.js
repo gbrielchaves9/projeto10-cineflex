@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 export default function SuccessPage({ final }) {
   const { cpf, name, movieTitle, sessionDate } = final;
@@ -19,7 +20,7 @@ export default function SuccessPage({ final }) {
         <strong>
           <p>Ingressos</p>
         </strong>
-       
+
       </TextContainer>
 
       <TextContainer data-test="client-info">
@@ -29,8 +30,9 @@ export default function SuccessPage({ final }) {
         <p>Nome: {name}</p>
         <p>CPF: {cpf}</p>
       </TextContainer>
-
-      <button data-test="go-home-btn">Voltar para Home</button>
+      <Link to="/">
+        <button data-test="go-home-btn">Voltar para Home</button>
+      </Link>
     </PageContainer>
   );
 }
