@@ -70,7 +70,9 @@ export default function SeatsPage({ setFinal }) {
                     cpf: cpf,
                     movieTitle: title,
                     sessionDate: dateTime,
-                    seats: selectedSeats
+                    seats: selectedSeats,
+                   
+                    ids: ids
                 })
             })
             .catch(err => console.log(err))
