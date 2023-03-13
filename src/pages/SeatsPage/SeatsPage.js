@@ -1,8 +1,7 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useParams } from "react-router-dom"
-import { Link } from "react-router-dom"
+import { useParams ,Link} from "react-router-dom"
 
 export default function SeatsPage({ setFinal }) {
     const [cadeira, setCadeira] = useState([])
@@ -10,25 +9,24 @@ export default function SeatsPage({ setFinal }) {
     const [title, setTitle] = useState('')
     const [escolheLugar, setEscolhe] = useState([]);
     const [dateTime, setDateTime] = useState('')
-
+    const [ids, setIds] = useState([]);
+    const [name, setName] = useState('')
+    const [cpf, setCpf] = useState('')
+  
 
     function handleClick(seat) {
         if (seat.backgroundColor === "#FBE192") {
-            alert("Esse assento não está disponível");
+          alert("Esse assento não está disponível");
         } else if (seat.isAvailable) {
-            const newEscolhe = [...escolheLugar];
-            const index = newEscolhe.indexOf(seat.id);
-            if (index > -1) {
-                newEscolhe.splice(index, 1);
-            } else {
-                newEscolhe.push(seat.id);
-            }
-            setEscolhe(newEscolhe);
-            setIds(newEscolhe);
+          const newEscolhe = escolheLugar.includes(seat.id)
+            ? escolheLugar.filter((id) => id !== seat.id)
+            : [...escolheLugar, seat.id];
+          setEscolhe(newEscolhe);
+          setIds(newEscolhe);
         } else {
-            alert("Esse assento não está disponível");
+          alert("Esse assento não está disponível");
         }
-    }
+      }
 
 
     const { idSessao } = useParams()
@@ -47,9 +45,7 @@ export default function SeatsPage({ setFinal }) {
     }, [idSessao])
     console.log(title)
     //espaço para pedidos :
-    const [ids, setIds] = useState([]);
-    const [name, setName] = useState('')
-    const [cpf, setCpf] = useState('')
+   
 
 
 
@@ -64,9 +60,7 @@ export default function SeatsPage({ setFinal }) {
                     name: name,
                     cpf: cpf,
                     movieTitle: title,
-                    sessionDate: dateTime,
-                    seats: ids,
-                    ids: ids // adiciona a propriedade ids aqui
+                    sessionDate: dateTime
                 })
             })
             .catch(err => console.log(err))
