@@ -12,46 +12,55 @@ export default function SeatsPage({ setFinal }) {
     const [ids, setIds] = useState([]);
     const [name, setName] = useState('')
     const [cpf, setCpf] = useState('')
+    const [seatNumbers, setSeatNumbers] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
   
 
-    function handleClick(seat) {
-        if (seat.backgroundColor === "#FBE192") {
+    function handleClick({id, seatNumber, isAvailable, backgroundColor, name}) {
+        if (backgroundColor === "#FBE192") {
           alert("Esse assento não está disponível");
-        } else if (seat.isAvailable) {
-          const newEscolhe = escolheLugar.includes(seat.id)
-            ? escolheLugar.filter((id) => id !== seat.id)
-            : [...escolheLugar, seat.id];
+        } else if (isAvailable) {
+          const newEscolhe = escolheLugar.includes(id)
+            ? escolheLugar.filter((id) => id !== id)
+            : [...escolheLugar, id];
           setEscolhe(newEscolhe);
           setIds(newEscolhe);
+          const newSeatNumbers = escolheLugar.includes(id)
+            ? seatNumbers.filter((number) => number !== seatNumber)
+            : [...seatNumbers, seatNumber];
+          setSeatNumbers(newSeatNumbers);
+          const newSelectedSeats = escolheLugar.includes(id)
+            ? selectedSeats.filter((seatName) => seatName !== name)
+            : [...selectedSeats, name];
+          setSelectedSeats(newSelectedSeats);
         } else {
           alert("Esse assento não está disponível");
         }
       }
-
-
     const { idSessao } = useParams()
     useEffect(() => {
         const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
         const promise = axios.get(URL)
         promise.then(res => {
-            setCadeira(res.data.seats)
-            setTitle(res.data.movie.title)
-            setPosterURL(res.data.movie.posterURL)
-            setDateTime(res.data.day.weekday + ' - ' + res.data.name)
-            console.log(res.data)
-            console.log(res.data.movie.title)
+            const seatsWithNumbers = res.data.seats.map(seat => ({
+              ...seat,
+              seatNumber: seat.name
+            }));
+            setCadeira(seatsWithNumbers);
+            setTitle(res.data.movie.title);
+            setPosterURL(res.data.movie.posterURL);
+            setDateTime(res.data.day.weekday + ' - ' + res.data.name);
+            console.log(res.data);
+            console.log(res.data.movie.title);
         })
         promise.catch(err => console.log(err.data))
     }, [idSessao])
     console.log(title)
     //espaço para pedidos :
    
-
-
-
     function pedido() {
         const urlPedido = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
-        const informacoes = { name, cpf, ids }
+        const informacoes = { name, cpf, ids,seatNumbers  }
         axios.post(urlPedido, informacoes)
             .then(res => {
                 alert("pedido enviado ")
@@ -60,7 +69,9 @@ export default function SeatsPage({ setFinal }) {
                     name: name,
                     cpf: cpf,
                     movieTitle: title,
-                    sessionDate: dateTime
+                    sessionDate: dateTime,
+                    seats: ids ,
+                    seats: selectedSeats
                 })
             })
             .catch(err => console.log(err))
@@ -73,6 +84,7 @@ export default function SeatsPage({ setFinal }) {
             <SeatsContainer >
                 {cadeira.map(seat => (
                     <SeatItem
+                
                         data-test="seat"
                         key={seat.id}
                         isAvailable={seat.isAvailable}

@@ -20,7 +20,9 @@ export default function SuccessPage({ final }) {
         <strong>
           <p>Ingressos</p>
         </strong>
-
+        {final.seats && final.seats.map(seat => (
+          <p key={seat}>{seat}</p>
+        ))}
       </TextContainer>
 
       <TextContainer data-test="client-info">
