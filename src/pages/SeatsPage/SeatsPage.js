@@ -4,7 +4,7 @@ import axios from "axios"
 import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 
-export default function SeatsPage({setFinal}) {
+export default function SeatsPage({ setFinal }) {
     const [cadeira, setCadeira] = useState([])
     const [posterURL, setPosterURL] = useState('')
     const [title, setTitle] = useState('')
@@ -61,8 +61,12 @@ export default function SeatsPage({setFinal}) {
                 alert("pedido enviado ")
                 console.log(res.data)
                 setFinal({
-                    name:name,
-                    cpf:cpf
+                    name: name,
+                    cpf: cpf,
+                    movieTitle: title,
+                    sessionDate: dateTime,
+                    seats: ids,
+                    ids: ids // adiciona a propriedade ids aqui
                 })
             })
             .catch(err => console.log(err))
